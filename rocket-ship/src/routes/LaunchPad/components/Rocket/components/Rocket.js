@@ -1,11 +1,12 @@
 import React, { useState, Component } from 'react';
 import RocketCore from './RocketCore';
 
-export function FunctionalRocket() {
+export const FunctionalRocket = React.memo(() => {
   const [initialLaunchTime] = useState(Date.now());
+  
 
   return <RocketCore initialLaunchTime={initialLaunchTime} />;
-}
+})
 
 export class ClassRocket extends Component {
   constructor() {
@@ -14,6 +15,14 @@ export class ClassRocket extends Component {
     this.state = {
       initialLaunchTime: Date.now()
     };
+  };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.initialLaunchTime === nextState.initialLaunchTime) {
+      return false
+    } else {
+      return true;
+    }
   }
 
   render() {
